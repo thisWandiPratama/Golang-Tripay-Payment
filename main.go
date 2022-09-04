@@ -59,7 +59,7 @@ func main() {
 			return
 		}
 
-		fmt.Println(c.Request.Header)
+		fmt.Println(c.Request.Header.Get("X-Callback-Signature"))
 
 		fmt.Println("hasil")
 		fmt.Println(input)
