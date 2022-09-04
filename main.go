@@ -61,9 +61,9 @@ func main() {
 
 		fmt.Println(c.Request.Header.Get("X-Callback-Signature"))
 		// xcallbacksignature := c.Request.Header.Get("X-Callback-Signature")
+		tr := paymenttripay.New("DEV-WhvAPUhrvIiMTklIn1CTp3WIJs1vJLP99MHGTcJl", "SvkVQ-5kEgq-4tx1r-fD10X-0rZ4U", "T11858", paymenttripay.Development)
 
-		// output, err := tripay
-
+		fmt.Println(tr)
 		c.JSON(http.StatusOK, gin.H{
 			"status": true,
 		})
