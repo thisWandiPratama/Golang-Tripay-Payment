@@ -69,10 +69,12 @@ func main() {
 
 		// fmt.Println(tr)
 		h := hmac.New(sha256.New, []byte("DEV-WhvAPUhrvIiMTklIn1CTp3WIJs1vJLP99MHGTcJl"))
+		fmt.Println(h)
 		b, err := json.Marshal(&input)
 		if err != nil {
 			return
 		}
+		fmt.Println(b)
 		h.Write(b)
 		signature := hex.EncodeToString(h.Sum(nil))
 		test := base64.StdEncoding.EncodeToString([]byte(signature))
