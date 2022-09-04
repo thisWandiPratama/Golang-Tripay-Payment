@@ -59,6 +59,8 @@ func main() {
 			return
 		}
 
+		fmt.Println("hasil")
+		fmt.Println(input)
 		c.JSON(http.StatusOK, input)
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
