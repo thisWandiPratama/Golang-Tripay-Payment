@@ -60,10 +60,13 @@ func main() {
 		}
 
 		fmt.Println(c.Request.Header.Get("X-Callback-Signature"))
+		// xcallbacksignature := c.Request.Header.Get("X-Callback-Signature")
 
-		fmt.Println("hasil")
-		fmt.Println(input)
-		c.JSON(http.StatusOK, input)
+		// output, err := tripay
+
+		c.JSON(http.StatusOK, gin.H{
+			"status": true,
+		})
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
