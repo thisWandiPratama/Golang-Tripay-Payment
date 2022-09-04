@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -74,9 +75,12 @@ func main() {
 		}
 		h.Write(b)
 		signature := hex.EncodeToString(h.Sum(nil))
+		test := base64.StdEncoding.EncodeToString([]byte(signature))
+
 		c.JSON(http.StatusOK, gin.H{
 			"server":   signature,
 			"callback": xcallbacksignature,
+			"test":     test,
 		})
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
