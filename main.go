@@ -59,6 +59,8 @@ func main() {
 			return
 		}
 
+		fmt.Println(c.Request.Header)
+
 		fmt.Println("hasil")
 		fmt.Println(input)
 		c.JSON(http.StatusOK, input)
