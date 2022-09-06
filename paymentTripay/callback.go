@@ -1,4 +1,4 @@
-package tripay
+package paymenttripay
 
 import (
 	"crypto/hmac"
@@ -10,7 +10,7 @@ import (
 type Callback struct {
 	Reference      string `json:"reference"`
 	MerchantRef    string `json:"merchant_ref"`
-	PaymentMethod  PaymentChannelCode `json:"payment_method_code"`
+	PaymentMethod  string `json:"payment_method_code"`
 	PaymentName    string `json:"payment_method"`
 	CustomerName   string `json:"customer_name"`
 	CustomerEmail  string `json:"customer_email"`
@@ -32,8 +32,8 @@ type Callback struct {
 func (t *Tripay) CallbackSignature(callbackData Callback) (signature string, err error) {
 	h := hmac.New(sha256.New, t.ApiKey)
 	b, err := json.Marshal(&callbackData)
-	if err != nil{
-		return "",err
+	if err != nil {
+		return "", err
 	}
 	h.Write(b)
 	signature = hex.EncodeToString(h.Sum(nil))
@@ -41,7 +41,7 @@ func (t *Tripay) CallbackSignature(callbackData Callback) (signature string, err
 }
 
 func (t *Tripay) CompareSignature(signature1, signature2 string) bool {
-	sign1, _ :=hex.DecodeString(signature1)
-	sign2, _ :=hex.DecodeString(signature2)
+	sign1, _ := hex.DecodeString(signature1)
+	sign2, _ := hex.DecodeString(signature2)
 	return hmac.Equal(sign1, sign2)
 }

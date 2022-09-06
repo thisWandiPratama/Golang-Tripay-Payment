@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
-	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -53,40 +52,54 @@ func main() {
 
 	})
 	r.POST("/callback", func(c *gin.Context) {
-		var input tripay.Callback
+		var input paymenttripay.Callback
 
 		err := c.ShouldBindJSON(&input)
 		if err != nil {
 			errorMessage := gin.H{"errors": err}
-
+			fmt.Println(errorMessage)
 			c.JSON(http.StatusUnprocessableEntity, errorMessage)
 			return
 		}
 
-		fmt.Println(c.Request.Header.Get("X-Callback-Signature"))
+		// from tripay
 		xcallbacksignature := c.Request.Header.Get("X-Callback-Signature")
-		// tr := paymenttripay.New("DEV-WhvAPUhrvIiMTklIn1CTp3WIJs1vJLP99MHGTcJl", "SvkVQ-5kEgq-4tx1r-fD10X-0rZ4U", "T11858", paymenttripay.Development)
 
-		// fmt.Println(tr)
+		// sisi server
 		h := hmac.New(sha256.New, []byte("DEV-WhvAPUhrvIiMTklIn1CTp3WIJs1vJLP99MHGTcJl"))
-		fmt.Println(h)
 		b, err := json.Marshal(&input)
 		if err != nil {
 			return
 		}
-		fmt.Println(b)
 		h.Write(b)
 		signature := hex.EncodeToString(h.Sum(nil))
-		test := base64.StdEncoding.EncodeToString([]byte(signature))
 
-		c.JSON(http.StatusOK, gin.H{
-			"server":   signature,
-			"callback": xcallbacksignature,
-			"test":     test,
-		})
+		fmt.Println("tripay:", xcallbacksignature)
+		fmt.Println("serverGO:", signature)
+		fmt.Println(input)
+		// tr := paymenttripay.New("DEV-WhvAPUhrvIiMTklIn1CTp3WIJs1vJLP99MHGTcJl", "SvkVQ-5kEgq-4tx1r-fD10X-0rZ4U", "T11858", paymenttripay.Development)
+
+		// fmt.Println(tr)
+
+		// c.JSON(http.StatusOK, gin.H{
+		// 	"server":   signature,
+		// 	"callback": xcallbacksignature,
+		// 	"test":     test,
+		// })
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
+
+// func (t *paymenttripay.Tripay) CallbackSignature(callbackData paymenttripay.Callback) (signature string, err error) {
+// 	h := hmac.New(sha256.New, t.ApiKey)
+// 	b, err := json.Marshal(&callbackData)
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	h.Write(b)
+// 	signature = hex.EncodeToString(h.Sum(nil))
+// 	return signature, nil
+// }
 
 //notifikasi FCM Method POST
 
