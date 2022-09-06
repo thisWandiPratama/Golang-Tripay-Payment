@@ -77,6 +77,11 @@ func main() {
 		fmt.Println("tripay:", xcallbacksignature)
 		fmt.Println("serverGO:", signature)
 		fmt.Println(input)
+
+		sign1, _ := hex.DecodeString(xcallbacksignature)
+		sign2, _ := hex.DecodeString(signature)
+		result := hmac.Equal(sign1, sign2)
+		fmt.Println("result: ", result)
 		// tr := paymenttripay.New("DEV-WhvAPUhrvIiMTklIn1CTp3WIJs1vJLP99MHGTcJl", "SvkVQ-5kEgq-4tx1r-fD10X-0rZ4U", "T11858", paymenttripay.Development)
 
 		// fmt.Println(tr)
